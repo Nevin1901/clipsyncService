@@ -4,27 +4,36 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using clipsyncService.Models;
 
 namespace clipsyncService
 {
     public class UserProcess
     {
-        public static List<string> GetActiveProcesses(List<string> gameProcesses)
+        private List<string> _gameList; 
+
+        public List<IApp> GetActiveProcesses()
         {
-            List<string> userProcesses = new List<string>();
-            foreach (string item in gameProcesses)
+            List<IApp> userProcesses = new List<IApp>();
+            foreach (string item in _gameList)
             {
                 Process[] currentProcess = Process.GetProcessesByName(item);
                 if (!(currentProcess.FirstOrDefault() is null))
                 {
-                    if (!userProcesses.Contains(currentProcess.FirstOrDefault()?.ProcessName))
+                    if (!userProcesses.Contains(new App(currentProcess.FirstOrDefault()?.ProcessName))) // this is probably gonna cause a bug if the two objects aren't the exact same
                     {
-                        userProcesses = userProcesses.Append(currentProcess.FirstOrDefault()?.ProcessName).ToList();
+                        userProcesses = userProcesses.Append(new App(currentProcess.FirstOrDefault()?.ProcessName)).ToList();
                     }
                 }
             }
 
             return userProcesses;
         }
+
+        public void SetGameList (List<string> gameList)
+        {
+            _gameList = gameList;
+        }
+
     }
 }

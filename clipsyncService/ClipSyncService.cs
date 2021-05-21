@@ -14,10 +14,14 @@ namespace clipsyncService
 {
     public partial class ClipSyncService : ServiceBase
     {
+        public int pendingSync = 0;
+        public bool sync = false;
         public List<string> gameProcesses = new List<string>()
         {
             "chrome", "firefox"
         };
+
+        UserProcess userProcess = new UserProcess();
         public ClipSyncService()
         {
             InitializeComponent();
@@ -29,6 +33,7 @@ namespace clipsyncService
 
             eventLog1.Source = "ClipSyncSource";
             eventLog1.Log = "ClipSyncLog";
+            userProcess.SetGameList(gameProcesses);
         }
 
         protected override void OnStart(string[] args)
@@ -49,13 +54,18 @@ namespace clipsyncService
 
         public void OnTimer (object sender, ElapsedEventArgs args) // refactor this garbage please
         {
-            string allActiveProcesses = "";
-            List<string> allUserProcesses = UserProcess.GetActiveProcesses(gameProcesses);
-            foreach (string item in allUserProcesses)
+            if (sync == true)
             {
-                allActiveProcesses += $"{item} ";
+                // sync clips
+                sync = false;
             }
-            eventLog1.WriteEntry(allActiveProcesses);
+            List<IApp> allUserProcesses = UserProcess.GetActiveProcesses();
+            if (pendingSync < allUserProcesses.Count)
+            {
+                sync = true;
+            }
+            pendingSync = allUserProcesses.Count;
+            eventLog1.WriteEntry(allUserProcesses.Count.ToString());
         }
     }
 }

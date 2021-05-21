@@ -52,6 +52,8 @@
     <Compile Include="ClipSyncService.Designer.cs">
       <DependentUpon>ClipSyncService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IApp.cs" />
+    <Compile Include="Models\App.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
@@ -73,5 +75,6 @@
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
