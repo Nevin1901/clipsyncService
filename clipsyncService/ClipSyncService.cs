@@ -9,13 +9,11 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using Microsoft.Win32.SafeHandles;
 
 namespace clipsyncService
 {
     public partial class ClipSyncService : ServiceBase
     {
-        public List<string> userProcesses = new List<string>();
         public List<string> gameProcesses = new List<string>()
         {
             "chrome", "firefox"
@@ -38,7 +36,7 @@ namespace clipsyncService
             eventLog1.WriteEntry("Service Started");
             Timer timer = new Timer
             {
-                Interval = 10000
+                Interval = 2000
             };
             timer.Elapsed += new ElapsedEventHandler(this.OnTimer);
             timer.Start();
@@ -51,31 +49,13 @@ namespace clipsyncService
 
         public void OnTimer (object sender, ElapsedEventArgs args) // refactor this garbage please
         {
-            string allUserProcesses = "";
-            foreach (string item in gameProcesses)
+            string allActiveProcesses = "";
+            List<string> allUserProcesses = UserProcess.GetActiveProcesses(gameProcesses);
+            foreach (string item in allUserProcesses)
             {
-                Process[] currentProcess = Process.GetProcessesByName(item);
-                if (!(currentProcess.FirstOrDefault() is null))
-                {
-                    if (!userProcesses.Contains(currentProcess.FirstOrDefault()?.ProcessName))
-                    {
-                        userProcesses = userProcesses.Append(currentProcess.FirstOrDefault()?.ProcessName).ToList();
-                    }
-                }
-                else
-                {
-                    if (userProcesses.Contains(item))
-                    {
-                        userProcesses.Remove(item);
-                    }
-                }
+                allActiveProcesses += $"{item} ";
             }
-
-            foreach (string userProcess in userProcesses)
-            {
-                allUserProcesses += $"{userProcess} ";
-            }
-            eventLog1.WriteEntry(allUserProcesses);
+            eventLog1.WriteEntry(allActiveProcesses);
         }
     }
 }
