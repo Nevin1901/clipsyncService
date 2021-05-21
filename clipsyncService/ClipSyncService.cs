@@ -9,6 +9,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using clipsyncService.Models;
 
 namespace clipsyncService
 {
@@ -22,6 +23,7 @@ namespace clipsyncService
         };
 
         UserProcess userProcess = new UserProcess();
+        UserApps userApps = new UserApps();
         public ClipSyncService()
         {
             InitializeComponent();
@@ -34,6 +36,7 @@ namespace clipsyncService
             eventLog1.Source = "ClipSyncSource";
             eventLog1.Log = "ClipSyncLog";
             userProcess.SetGameList(gameProcesses);
+            userApps.SetApps(gameProcesses);
         }
 
         protected override void OnStart(string[] args)

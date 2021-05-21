@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using clipsyncService.UserApps;
 
 namespace clipsyncService.Models
 {
@@ -12,13 +11,8 @@ namespace clipsyncService.Models
     {
         private IApp[] _apps;
 
-        public UserApps(IApp[] apps)
+        public UserApps()
         {
-            _apps = new IApp[apps.Length];
-            for (int i = 0; i < apps.Length; i++)
-            {
-                _apps[i] = apps[i];
-            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -53,6 +47,20 @@ namespace clipsyncService.Models
             }
 
             return false;
+        }
+
+        public void SetApps(IApp[] apps)
+        {
+            _apps = new IApp[apps.Length];
+            for (int i = 0; i < apps.Length; i++)
+            {
+                _apps[i] = apps[i];
+            }
+        }
+
+        public List<IApp> RefreshApps()
+        {
+            throw new NotImplementedException();
         }
 
     }

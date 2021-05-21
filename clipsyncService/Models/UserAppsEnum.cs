@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using clipsyncService.Models;
 
-namespace clipsyncService.UserApps
+namespace clipsyncService.Models
 {
     public class UserAppsEnum : IEnumerator
     {

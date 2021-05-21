@@ -54,7 +54,7 @@
     </Compile>
     <Compile Include="Interfaces\IApp.cs" />
     <Compile Include="Models\App.cs" />
-    <Compile Include="UserApps\UserApps.cs" />
+    <Compile Include="Models\UserApps.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
@@ -63,7 +63,7 @@
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserApps\UserAppsEnum.cs" />
+    <Compile Include="Models\UserAppsEnum.cs" />
     <Compile Include="UserProcess.cs" />
   </ItemGroup>
   <ItemGroup>
