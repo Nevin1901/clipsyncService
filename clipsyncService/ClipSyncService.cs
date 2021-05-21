@@ -9,11 +9,17 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using Microsoft.Win32.SafeHandles;
 
 namespace clipsyncService
 {
     public partial class ClipSyncService : ServiceBase
     {
+        public List<string> userProcesses = new List<string>();
+        public List<string> gameProcesses = new List<string>()
+        {
+            "chrome", "firefox"
+        };
         public ClipSyncService()
         {
             InitializeComponent();
@@ -43,17 +49,33 @@ namespace clipsyncService
             eventLog1.WriteEntry("Service Stopped");
         }
 
-        public void OnTimer (object sender, ElapsedEventArgs args)
+        public void OnTimer (object sender, ElapsedEventArgs args) // refactor this garbage please
         {
-            string allProcesses = "";
-            Process[] processes = Process.GetProcesses();
-            foreach (Process process in processes)
+            string allUserProcesses = "";
+            foreach (string item in gameProcesses)
             {
-                allProcesses += $"{process.ProcessName} ";
+                Process[] currentProcess = Process.GetProcessesByName(item);
+                if (!(currentProcess.FirstOrDefault() is null))
+                {
+                    if (!userProcesses.Contains(currentProcess.FirstOrDefault()?.ProcessName))
+                    {
+                        userProcesses = userProcesses.Append(currentProcess.FirstOrDefault()?.ProcessName).ToList();
+                    }
+                }
+                else
+                {
+                    if (userProcesses.Contains(item))
+                    {
+                        userProcesses.Remove(item);
+                    }
+                }
             }
 
-            eventLog1.WriteEntry(allProcesses);
+            foreach (string userProcess in userProcesses)
+            {
+                allUserProcesses += $"{userProcess} ";
+            }
+            eventLog1.WriteEntry(allUserProcesses);
         }
-
     }
 }
