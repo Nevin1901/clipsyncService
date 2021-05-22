@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.ServiceProcess;
@@ -62,7 +63,7 @@ namespace clipsyncService
             if (_userApps.CheckSync()) // kind of shit code because it relies on the SyncApps function being called in order for it to not constantly sync, but it works for now
             {                          // because the sync bool not being disabled on the CheckSync function
                 await _userApps.SyncApps();
-                output = "synced apps";
+                output = "sync files";
             }
             else
                 output = "no";

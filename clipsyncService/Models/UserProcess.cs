@@ -10,7 +10,7 @@ namespace clipsyncService.Models
 {
     class UserProcess : IUserProcess
     {
-        private List<string> _selectedApps;
+        private readonly List<string> _selectedApps;
         public UserProcess(List<string> selectedApps)
         {
             _selectedApps = new List<string>(selectedApps);
