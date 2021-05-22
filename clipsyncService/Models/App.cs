@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace clipsyncService.Models
 {
+    /// <summary>
+    /// Any Open App
+    /// </summary>
     class App : IApp
     {
         public string Title { get; set; }
@@ -19,7 +22,7 @@ namespace clipsyncService.Models
             Title = title;
         }
 
-        public bool IsOpen()
+        public bool IsRunning()
         {
             if (!(Process.GetProcessesByName(Title).FirstOrDefault() is null))
                 return true;

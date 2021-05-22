@@ -4,15 +4,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using clipsyncService.Interfaces;
 
 namespace clipsyncService.Models
 {
     public class UserApps : IEnumerable
     {
         private IApp[] _apps;
+        private int appCount = 0;
+        private bool _sync = false;
 
         public UserApps()
         {
+
+        }
+
+        public void SetApps(IApp[] apps)
+        {
+            if (apps.Length < appCount) _sync = true;
+            appCount = apps.Length;
+            Array.Resize(ref _apps, apps.Length);
+            for (int i = 0; i < apps.Length; i++)
+            {
+                _apps[i] = apps[i];
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -30,7 +45,7 @@ namespace clipsyncService.Models
             List<string> appNames = new List<string>();
             foreach (var app in _apps)
             {
-                appNames = appNames.Append(app.Title).ToList();
+                appNames.Add(app.Title);
             }
 
             return appNames;
@@ -49,18 +64,14 @@ namespace clipsyncService.Models
             return false;
         }
 
-        public void SetApps(IApp[] apps)
+        public bool CheckSync()
         {
-            _apps = new IApp[apps.Length];
-            for (int i = 0; i < apps.Length; i++)
-            {
-                _apps[i] = apps[i];
-            }
+            return _sync;
         }
 
-        public List<IApp> RefreshApps()
+        public async Task SyncApps()
         {
-            throw new NotImplementedException();
+            // sync apps
         }
 
     }

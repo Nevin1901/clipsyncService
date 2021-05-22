@@ -15,15 +15,14 @@ namespace clipsyncService
 {
     public partial class ClipSyncService : ServiceBase
     {
-        public int pendingSync = 0;
-        public bool sync = false;
         public List<string> gameProcesses = new List<string>()
         {
             "chrome", "firefox"
         };
 
-        UserProcess userProcess = new UserProcess();
-        UserApps userApps = new UserApps();
+        private UserProcess _userProcess;
+        private IApp[] _currentApps;
+        private UserApps _userApps;
         public ClipSyncService()
         {
             InitializeComponent();
@@ -35,8 +34,8 @@ namespace clipsyncService
 
             eventLog1.Source = "ClipSyncSource";
             eventLog1.Log = "ClipSyncLog";
-            userProcess.SetGameList(gameProcesses);
-            userApps.SetApps(gameProcesses);
+            _userProcess = new UserProcess(gameProcesses);
+            _userApps = new UserApps();
         }
 
         protected override void OnStart(string[] args)
@@ -55,20 +54,19 @@ namespace clipsyncService
             eventLog1.WriteEntry("Service Stopped");
         }
 
-        public void OnTimer (object sender, ElapsedEventArgs args) // refactor this garbage please
+        public async void OnTimer (object sender, ElapsedEventArgs args) // refactor this garbage please
         {
-            if (sync == true)
+            string output = "";
+            _currentApps = _userProcess.GetRunningApps().ToArray();
+            _userApps.SetApps(_currentApps);
+            if (_userApps.CheckSync())
             {
-                // sync clips
-                sync = false;
+                await _userApps.SyncApps();
+                output = "synced apps";
             }
-            List<IApp> allUserProcesses = UserProcess.GetActiveProcesses();
-            if (pendingSync < allUserProcesses.Count)
-            {
-                sync = true;
-            }
-            pendingSync = allUserProcesses.Count;
-            eventLog1.WriteEntry(allUserProcesses.Count.ToString());
+            else
+                output = "no";
+            eventLog1.WriteEntry(output);
         }
     }
 }

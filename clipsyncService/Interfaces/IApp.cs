@@ -12,5 +12,7 @@ namespace clipsyncService
 
         bool SyncQueued { get; set; }
 
+        bool IsRunning();
+
     }
 }
