@@ -54,13 +54,13 @@ namespace clipsyncService
             eventLog1.WriteEntry("Service Stopped");
         }
 
-        public async void OnTimer (object sender, ElapsedEventArgs args) // refactor this garbage please
+        public async void OnTimer (object sender, ElapsedEventArgs args) // refactored as of 22/5/2021
         {
             string output = "";
             _currentApps = _userProcess.GetRunningApps().ToArray();
             _userApps.SetApps(_currentApps);
-            if (_userApps.CheckSync())
-            {
+            if (_userApps.CheckSync()) // kind of shit code because it relies on the SyncApps function being called in order for it to not constantly sync, but it works for now
+            {                          // because the sync bool not being disabled on the CheckSync function
                 await _userApps.SyncApps();
                 output = "synced apps";
             }

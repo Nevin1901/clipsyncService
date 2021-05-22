@@ -11,7 +11,7 @@ namespace clipsyncService.Models
     public class UserApps : IEnumerable
     {
         private IApp[] _apps;
-        private int appCount = 0;
+        private int _appCount = 0;
         private bool _sync = false;
 
         public UserApps()
@@ -21,8 +21,8 @@ namespace clipsyncService.Models
 
         public void SetApps(IApp[] apps)
         {
-            if (apps.Length < appCount) _sync = true;
-            appCount = apps.Length;
+            if (apps.Length < _appCount) _sync = true;
+            _appCount = apps.Length;
             Array.Resize(ref _apps, apps.Length);
             for (int i = 0; i < apps.Length; i++)
             {
@@ -72,6 +72,7 @@ namespace clipsyncService.Models
         public async Task SyncApps()
         {
             // sync apps
+            _sync = false;
         }
 
     }
