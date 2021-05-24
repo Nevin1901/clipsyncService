@@ -10,7 +10,7 @@ namespace clipsyncService
     {
         string Title { get; set; }
 
-        bool SyncQueued { get; set; }
+        // remember to add a process field name
 
         bool IsRunning();
 

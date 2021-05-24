@@ -11,8 +11,9 @@ namespace clipsyncService.Models
     public class UserApps : IEnumerable, IUserApps
     {
         private IApp[] _apps;
-        private int _appCount = 0;
-        private bool _sync = false;
+        private IApp[] _syncQueuedApps;
+        private int _appCount;
+        private bool _sync;
 
         public UserApps()
         {
@@ -23,16 +24,12 @@ namespace clipsyncService.Models
         {
             if (apps.Length < _appCount)
             {
-                foreach (IApp app in apps)
-                {
-                    if (!ContainsApp(app.Title))
-                    {
-                        app.SyncQueued = true;
-                    }
-                }
                 _sync = true;
+                _syncQueuedApps = _apps.Except(apps).ToArray();
+                // I was gonna mutate the main array but then I realized that the whole part of the IS SYNCED flag is garbage
             }
-            // refactor this to be able to tell which app needs to be synced
+
+            // refactored as of 24/5/2021
             _appCount = apps.Length;
             Array.Resize(ref _apps, apps.Length);
             for (int i = 0; i < apps.Length; i++)
@@ -43,7 +40,7 @@ namespace clipsyncService.Models
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (IEnumerator) GetEnumerator();
+            return GetEnumerator();
         }
 
         public UserAppsEnum GetEnumerator()
@@ -64,13 +61,7 @@ namespace clipsyncService.Models
 
         public List<IApp> GetSyncQueuedApps()
         {
-            List<IApp> syncQueuedApps = new List<IApp>();
-            foreach (IApp app in _apps)
-            {
-                if (app.SyncQueued) syncQueuedApps.Add(app);
-            }
-
-            return syncQueuedApps;
+            return _syncQueuedApps.ToList();
         }
 
         public bool ContainsApp(string appName)

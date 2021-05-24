@@ -68,10 +68,13 @@ namespace clipsyncService
                     output += $"{app.Title} ";
                 }
                 await _userApps.SyncApps();
+                eventLog1.WriteEntry(output);
             }
             else
+            {
                 output = "no";
-            eventLog1.WriteEntry(output);
+                eventLog1.WriteEntry(output);
+            }
         }
     }
 }
