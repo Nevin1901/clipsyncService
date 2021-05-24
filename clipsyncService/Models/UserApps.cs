@@ -8,7 +8,7 @@ using clipsyncService.Interfaces;
 
 namespace clipsyncService.Models
 {
-    public class UserApps : IEnumerable
+    public class UserApps : IEnumerable, IUserApps
     {
         private IApp[] _apps;
         private int _appCount = 0;
@@ -21,7 +21,18 @@ namespace clipsyncService.Models
 
         public void SetApps(IApp[] apps)
         {
-            if (apps.Length < _appCount) _sync = true;
+            if (apps.Length < _appCount)
+            {
+                foreach (IApp app in apps)
+                {
+                    if (!ContainsApp(app.Title))
+                    {
+                        app.SyncQueued = true;
+                    }
+                }
+                _sync = true;
+            }
+            // refactor this to be able to tell which app needs to be synced
             _appCount = apps.Length;
             Array.Resize(ref _apps, apps.Length);
             for (int i = 0; i < apps.Length; i++)
@@ -51,6 +62,17 @@ namespace clipsyncService.Models
             return appNames;
         }
 
+        public List<IApp> GetSyncQueuedApps()
+        {
+            List<IApp> syncQueuedApps = new List<IApp>();
+            foreach (IApp app in _apps)
+            {
+                if (app.SyncQueued) syncQueuedApps.Add(app);
+            }
+
+            return syncQueuedApps;
+        }
+
         public bool ContainsApp(string appName)
         {
             foreach (var app in _apps)
@@ -68,6 +90,8 @@ namespace clipsyncService.Models
         {
             return _sync;
         }
+
+
 
         public async Task SyncApps()
         {

@@ -62,8 +62,12 @@ namespace clipsyncService
             _userApps.SetApps(_currentApps);
             if (_userApps.CheckSync()) // kind of shit code because it relies on the SyncApps function being called in order for it to not constantly sync, but it works for now
             {                          // because the sync bool not being disabled on the CheckSync function
+                List<IApp> syncedApps = _userApps.GetSyncQueuedApps();
+                foreach (IApp app in syncedApps)
+                {
+                    output += $"{app.Title} ";
+                }
                 await _userApps.SyncApps();
-                output = "sync files";
             }
             else
                 output = "no";

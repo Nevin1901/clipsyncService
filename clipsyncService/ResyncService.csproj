@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="Interfaces\IApp.cs" />
     <Compile Include="Interfaces\IAppsList.cs" />
+    <Compile Include="Interfaces\IUserApps.cs" />
     <Compile Include="Interfaces\IUserProcess.cs" />
     <Compile Include="Models\App.cs" />
     <Compile Include="Models\UserApps.cs" />
