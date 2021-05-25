@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using clipsyncService.Models;
+using UserAppsService;
+using UserAppsService.Interfaces;
 
 namespace clipsyncService
 {
@@ -41,6 +43,12 @@ namespace clipsyncService
 
         protected override void OnStart(string[] args)
         {
+            eventLog1.WriteEntry($"{Path.GetTempPath()}resyncDbContext.sqlite");
+            if (!File.Exists($"{Path.GetTempPath()}resyncDbContext.sqlite"))
+            {
+                File.Create($"{Path.GetTempPath()}resyncDbContext.sqlite"); // make sure that this is in the installation folder, instead of the temp path
+                // C:\WINDOWS\TEMP folder
+            }
             eventLog1.WriteEntry("Service Started");
             Timer timer = new Timer
             {

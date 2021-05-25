@@ -5,21 +5,30 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserAppsService.Interfaces;
 
-namespace clipsyncService.Models
+namespace UserAppsService.Models
 {
     /// <summary>
     /// Any Open App
     /// </summary>
-    class App : IApp
+    public class App : IApp
     {
         public string Title { get; set; }
+
+        public string ProcessName { get; set; }
 
         public bool SyncQueued { get; set; }
 
         public App(string title)
         {
             Title = title;
+        }
+
+        public App(string title, string processName)
+        {
+            Title = title;
+            ProcessName = processName;
         }
 
         public bool IsRunning()

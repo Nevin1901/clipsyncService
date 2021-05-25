@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using clipsyncService.Interfaces;
+using UserAppsService;
+using UserAppsService.Interfaces;
+using IUserApps = clipsyncService.Interfaces.IUserApps;
 
 namespace clipsyncService.Models
 {

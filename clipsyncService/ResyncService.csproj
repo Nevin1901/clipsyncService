@@ -53,13 +53,8 @@
     <Compile Include="ClipSyncService.Designer.cs">
       <DependentUpon>ClipSyncService.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IApp.cs" />
     <Compile Include="Interfaces\IAppsList.cs" />
     <Compile Include="Interfaces\IUserApps.cs" />
-    <Compile Include="Interfaces\IUserProcess.cs" />
-    <Compile Include="Models\App.cs" />
-    <Compile Include="Models\UserApps.cs" />
-    <Compile Include="Models\UserProcess.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
@@ -68,6 +63,7 @@
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\UserApps.cs" />
     <Compile Include="Models\UserAppsEnum.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +77,11 @@
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\UserAppsService\UserAppsService.csproj">
+      <Project>{b7fdaaf3-2bc5-486e-908b-70995c44437c}</Project>
+      <Name>UserAppsService</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
