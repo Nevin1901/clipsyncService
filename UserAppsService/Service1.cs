@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
@@ -22,12 +23,19 @@ namespace UserAppsService
         public UserProcess(List<string> selectedApps)
         {
             _selectedApps = new List<string>(selectedApps);
+            using (var context = new ClipContext())
+            {
+            }
             // get the apps from a database
         }
 
-        public void SetSelectedApps()
+        public void AddSelectedApps(string appName)
         {
             // add the apps to a local sqlite database
+        }
+
+        public void RemoveSelectedApps(string appName)
+        {
         }
 
         public List<IApp> GetRunningApps()

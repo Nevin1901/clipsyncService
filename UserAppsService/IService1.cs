@@ -17,6 +17,10 @@ namespace UserAppsService
         List<IApp> GetRunningApps();
 
         [OperationContract]
-        void SetSelectedApps();
+        void AddSelectedApps(string appName);
+
+        [OperationContract]
+        void RemoveSelectedApps(string appName);
+
     }
 }
