@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -20,11 +21,14 @@ namespace UserAppsService
     {
 
         private readonly List<string> _selectedApps;
-        public UserProcess(List<string> selectedApps)
+        public UserProcess()
         {
-            _selectedApps = new List<string>(selectedApps);
             using (var context = new ClipContext())
-            {
+            { // this is probably horrible code because of how long the constructor takes to finish
+                context.SelectedClips.Add("firefox");
+                context.SaveChanges();
+                List<string> apps = (from a in context.SelectedClips select a).ToList();
+                _selectedApps = apps;
             }
             // get the apps from a database
         }

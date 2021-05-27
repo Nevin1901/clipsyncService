@@ -37,7 +37,7 @@ namespace clipsyncService
 
             eventLog1.Source = "ClipSyncSource";
             eventLog1.Log = "ClipSyncLog";
-            _userProcess = new UserProcess(gameProcesses);
+            _userProcess = new UserProcess();
             _userApps = new UserApps();
         }
 
