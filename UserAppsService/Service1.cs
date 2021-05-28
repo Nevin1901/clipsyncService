@@ -20,17 +20,26 @@ namespace UserAppsService
     public class UserProcess : IUserProcess
     {
 
-        private readonly List<string> _selectedApps;
+        private List<string> _selectedApps;
         public UserProcess()
         {
-            using (var context = new ClipContext())
-            { // this is probably horrible code because of how long the constructor takes to finish
-                context.SelectedClips.Add("firefox");
-                context.SaveChanges();
-                List<string> apps = (from a in context.SelectedClips select a).ToList();
-                _selectedApps = apps;
-            }
             // get the apps from a database
+        }
+
+        public async Task<List<SelectedApp>> GetSelectedApps()
+        {
+
+            using (var context = new ClipContext())
+            {
+                context.SelectedClips.Add(new SelectedApp("firefox"));
+                await context.SaveChangesAsync();
+                List<SelectedApp> apps = await (from a in context.SelectedClips select a).ToListAsync();
+                foreach (var app in apps)
+                {
+                    _selectedApps.Add(app.AppName);
+                }
+                return apps;
+            }
         }
 
         public void AddSelectedApps(string appName)

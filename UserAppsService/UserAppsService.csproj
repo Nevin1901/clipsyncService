@@ -64,9 +64,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IApp.cs" />
+    <Compile Include="Interfaces\ISelectedApp.cs" />
     <Compile Include="IService1.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\App.cs" />
     <Compile Include="Models\ClipContext.cs" />
+    <Compile Include="Models\SelectedApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service1.cs" />
     <Compile Include="Models\UserAppsEnum.cs" />

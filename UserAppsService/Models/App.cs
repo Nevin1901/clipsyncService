@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace UserAppsService.Models
     /// </summary>
     public class App : IApp
     {
+        [Key]
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
         public string ProcessName { get; set; }

@@ -10,6 +10,7 @@ namespace UserAppsService.Interfaces
     [ServiceContract]
     public interface IApp
     {
+        int Id { get; set; }
         string Title { get; set; }
 
         string ProcessName { get; set; }

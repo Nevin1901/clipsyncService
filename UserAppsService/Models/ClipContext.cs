@@ -11,7 +11,7 @@ namespace UserAppsService.Models
     {
         public DbSet<App> Apps { get; set; }
 
-        public DbSet<string> SelectedClips { get; set; }
+        public DbSet<SelectedApp> SelectedClips { get; set; }
 
         public ClipContext() : base("PrivateUserDatabase")
         {

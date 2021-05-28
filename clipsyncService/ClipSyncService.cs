@@ -13,6 +13,7 @@ using System.Timers;
 using clipsyncService.Models;
 using UserAppsService;
 using UserAppsService.Interfaces;
+using UserAppsService.Models;
 
 namespace clipsyncService
 {
@@ -68,20 +69,24 @@ namespace clipsyncService
             string output = "";
             _currentApps = _userProcess.GetRunningApps().ToArray();
             _userApps.SetApps(_currentApps);
+            List<SelectedApp> apps = await _userProcess.GetSelectedApps();
+            foreach (var _app in apps)
+            {
+                output += $"{_app.AppName} ";
+            }
+
+            eventLog1.WriteEntry(output);
             if (_userApps.CheckSync()) // kind of shit code because it relies on the SyncApps function being called in order for it to not constantly sync, but it works for now
             {                          // because the sync bool not being disabled on the CheckSync function
                 List<IApp> syncedApps = _userApps.GetSyncQueuedApps();
                 foreach (IApp app in syncedApps)
                 {
-                    output += $"{app.Title} ";
                 }
                 await _userApps.SyncApps();
                 eventLog1.WriteEntry(output);
             }
             else
             {
-                output = "no";
-                eventLog1.WriteEntry(output);
             }
         }
     }

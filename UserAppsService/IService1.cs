@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using UserAppsService.Interfaces;
+using UserAppsService.Models;
 
 namespace UserAppsService
 {
@@ -21,6 +22,9 @@ namespace UserAppsService
 
         [OperationContract]
         void RemoveSelectedApps(string appName);
+
+        [OperationContract]
+        Task<List<SelectedApp>> GetSelectedApps();
 
     }
 }
